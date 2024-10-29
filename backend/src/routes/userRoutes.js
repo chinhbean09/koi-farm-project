@@ -35,7 +35,7 @@ const userController = require('../controllers/userController');
  *       500:
  *         description: Internal server error
  */
-router.post('/', userController.create);
+// router.post('/', userController.create);
 
 /**
  * @swagger
