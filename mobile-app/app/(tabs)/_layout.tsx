@@ -35,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Home Page",
           headerTitleAlign: "center",
           tabBarIcon: ({ color }) => (
