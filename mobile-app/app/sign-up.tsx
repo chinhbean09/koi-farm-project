@@ -4,23 +4,24 @@ import { router } from 'expo-router';
 import { useSession } from '@/utils/ctx';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function SignIn() {
-  const { signIn } = useSession();
+export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailOpacity, setEmailOpacity] = useState(0.5);
+  const [nameOpacity, setNameOpacity] = useState(0.5);
   const [passwordOpacity, setPasswordOpacity] = useState(0.5);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [scaleAnim] = useState(new Animated.Value(1));
+  const [name, setName] = useState('');
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     try {
-      await signIn(); // Giả định signIn nhận email và mật khẩu
-      // Điều hướng sau khi đăng nhập thành công
+      // await signUp(name, email, password); // Update to include name
+      // Điều hướng sau khi đăng ký thành công
       router.replace('/');
     } catch (error) {
-      Alert.alert('Đăng nhập không thành công', 'Vui lòng kiểm tra thông tin đăng nhập của bạn.');
+      Alert.alert('Đăng ký không thành công', 'Vui lòng kiểm tra thông tin đăng ký của bạn.');
     }
   };
 
@@ -45,7 +46,19 @@ export default function SignIn() {
       resizeMode="cover"
     >
       <View style={styles.overlay}>
-        <Text style={styles.title}>Đăng Nhập</Text>
+        <Text style={styles.title}>Đăng Ký</Text>
+        <TextInput
+          style={[styles.input, { opacity: nameOpacity, ...styles.inputFocused }]}
+          placeholder="Họ và Tên"
+          value={name}
+          onChangeText={setName}
+          autoCapitalize="words"
+          autoCorrect={false}
+          onFocus={() => {
+            setNameOpacity(0.8);
+            setEmailFocused(true);
+          }}
+        />
         <TextInput
           style={[styles.input, { opacity: emailOpacity, ...styles.inputFocused }]}
           placeholder="Email"
@@ -78,11 +91,11 @@ export default function SignIn() {
             setPasswordFocused(false);
           }}
         />
-        <Text style={[styles.forgot, styles.forgotRight]}>Quên mật khẩu ?</Text>
+        {/* <Text style={[styles.forgot, styles.forgotRight]}>Quên mật khẩu ?</Text> */}
         <Animated.View style={{ transform: [{ scale: scaleAnim }], width: '100%' }}>
           <TouchableOpacity
             style={styles.buttonContainer}
-            onPress={handleSignIn}
+            onPress={handleSignUp}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
           >
@@ -92,14 +105,14 @@ export default function SignIn() {
               end={[1, 0]}
               style={styles.buttonGradient}
             >
-              <Text style={styles.buttonText}>Đăng Nhập</Text>
+              <Text style={styles.buttonText}>Đăng Ký</Text>
             </LinearGradient>
           </TouchableOpacity>
         </Animated.View>
         <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>Bạn chưa có tài khoản?</Text>
-          <TouchableOpacity onPress={() => {router.push('/sign-up')}}>
-            <Text style={styles.registerButton}>Đăng ký</Text>
+          <Text style={styles.registerText}>Bạn đã có tài khoản?</Text>
+          <TouchableOpacity onPress={() => {router.push('/sign-in')}}>
+            <Text style={styles.registerButton}>Đăng Nhập</Text>
           </TouchableOpacity>
         </View>
       </View>
